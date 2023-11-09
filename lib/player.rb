@@ -8,4 +8,12 @@ class Player
     puts "Enter a letter, or type 'save' to save progress:"
     @letter = gets.chomp.downcase
   end
+
+  def choose_game
+    @choice = gets.chomp
+    return @choice if %w[1 2].include?(@choice)
+
+    puts "Invalid input. Please enter '1' or '2'"
+    choose_game
+  end
 end
