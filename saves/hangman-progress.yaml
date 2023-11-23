@@ -1,0 +1,13 @@
+---
+!ruby/object:Game
+player: !ruby/object:Player
+  letter: SAVE
+word: !ruby/object:Word
+  selected_word: RECALL
+  masked_word: RE_ALL
+attempts_left: 8
+letters_guessed:
+  - E
+  - A
+  - R
+  - L

@@ -2,7 +2,7 @@
 
 # Handles all characters of the word element
 class Word
-  attr_reader :selected_word
+  attr_reader :selected_word, :masked_word
 
   def initialize
     @selected_word = select_word.upcase
@@ -24,7 +24,7 @@ class Word
   end
 
   def letter_valid?(letter)
-    [*('a'..'z')].include?(letter.downcase)
+    [*('a'..'z')].include?(letter.downcase) || letter.downcase == 'save'
   end
 
   def select_word
