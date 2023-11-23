@@ -6,7 +6,7 @@ class Player
 
   def choose_letter
     puts "Enter a letter, or type 'save' to save progress:"
-    @letter = gets.chomp.downcase
+    @letter = gets.chomp.upcase
   end
 
   def choose_game

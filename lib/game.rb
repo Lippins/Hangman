@@ -1,96 +1,58 @@
 # frozen_string_literal: true
 
 require './lib/player'
+require './lib/word'
 
 # Handles all game attributes and functions
 class Game
-  def initialize
-    @selected_word = select_word
+  def initialize(player, word)
+    @player = player
+    @word = word
+    @attempts_left = 10
     @letters_guessed = []
-    @board = '_' * @selected_word.length
-    @player = Player.new
-    display_intro
-    # puts @board
-    # puts @selected_word
-    puts @selected_word
   end
 
-  # working here
-  def play_game
-    guesses_left = 10
-    guesses_left.times do |i|
-      if playround
+  def play
+    until game_over?
+      display_status
+      guess = @player.choose_letter
+      process_guess(guess)
     end
+
+    conclude_game
   end
 
-  def play_round
-    choice = validate_player_choice(@player.choose_letter)
-    if @selected_word.include?(choice)
-      puts 'Nice Guess!'
-      update_board(choice)
-    else
-      puts 'Not Quite'
-    end
+  def game_over?
+    @attempts_left.zero? || @word.fully_guessed?
   end
 
-  def display_intro
-    puts <<~HEREDOC
-
-      H-A-N-G-M-A-N
-      Would you like to: [1] Start a new game
-                         [2] Load a game
-      Enter '1' or '2'
-
-    HEREDOC
-  end
-
-  def display_status(counter)
+  def display_status
     puts <<~HEREDOC
 
       Letters guessed: #{@letters_guessed.join(' ')}
-      Incorrect guesses left: #{counter}
-      #{@board}
+      Incorrect guesses left: #{@attempts_left}
+      #{@word.display}
 
     HEREDOC
   end
 
-  def update_board(letter)
-    @selected_word.length.times do |i|
-      @board[i] = letter if @selected_word[i] == letter
-    end
-    true
-  end
+  def process_guess(guess)
+    return puts "Invalid input: #{guess}" unless @word.letter_valid?(guess)
 
-  def validate_player_choice(letter)
-    if !letter_valid?(letter)
-      puts "Invalid input: #{letter}"
-    elsif letter_taken?(letter)
-      puts "You've already guessed the letter '#{letter}'"
+    if @word.selected_word.include?(guess)
+      @word.reveal_letter(guess)
+      puts 'Correct!'
     else
-      @letters_guessed << letter
-      return letter
+      @guesses_left -= 1
+      puts "Wrong! Attempts left #{@attempts_left}"
     end
-    validate_player_choice(@player.choose_letter)
   end
 
-  def letter_valid?(letter)
-    [*('a'..'z')].include?(letter)
-  end
-
-  def letter_taken?(letter)
-    @letters_guessed.include?(letter)
-  end
-
-  def winner?
-    @selected_word == @board
-  end
-
-  def select_word
-    words = File.open('google-10000-english-no-swears.txt', 'r', &:readlines)
-    words = words.map(&:chomp)
-    words.select { |word| word.length.between?(5, 12) }.sample
+  def conclude_game
+    if @attempts_left.positive?
+      puts "Congrat! You guessed the word: #{@word.selected_word}"
+    else
+      "Sorry. You lost! The word was: #{@word.selected_word}"
+    end
   end
 end
-
-test = Game.new
-10.times { |_i| play_round }

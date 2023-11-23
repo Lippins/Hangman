@@ -2,6 +2,8 @@
 
 # Handles all characters of the word element
 class Word
+  attr_reader :selected_word
+
   def initialize
     @selected_word = select_word.upcase
     @masked_word = '_' * @selected_word.length
@@ -19,6 +21,10 @@ class Word
 
   def fully_guessed?
     !@masked_word.include?('-')
+  end
+
+  def letter_valid?(letter)
+    [*('a'..'z')].include?(letter)
   end
 
   def select_word
