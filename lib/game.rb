@@ -77,7 +77,7 @@ class Game
 
   def save_game
     File.open('./saves/hangman-progress.yaml', 'w') { |f| f.write(YAML.dump(self)) }
-    puts 'Game Saved! Thanks for playing'
+    puts color_letter('Game Saved! Thanks for playing', 'yellow')
     exit
   end
 

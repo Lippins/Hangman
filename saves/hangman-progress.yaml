@@ -1,13 +1,13 @@
 ---
 !ruby/object:Game
 player: !ruby/object:Player
+  choice: "1"
   letter: SAVE
 word: !ruby/object:Word
-  selected_word: RECALL
-  masked_word: RE_ALL
+  selected_word: BRISBANE
+  masked_word: ___S_A_E
 attempts_left: 8
 letters_guessed:
   - E
   - A
-  - R
-  - L
+  - S
