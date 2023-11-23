@@ -2,13 +2,16 @@
 
 require './lib/player'
 require './lib/word'
+require './lib/helpables'
 
 # Handles all game attributes and functions
 class Game
+  include Helpables
+
   def initialize(player, word)
     @player = player
     @word = word
-    @attempts_left = 2
+    @attempts_left = 8
     @letters_guessed = []
   end
 
@@ -29,11 +32,24 @@ class Game
   def display_status
     puts <<~HEREDOC
 
-      Letters guessed: #{@letters_guessed.join(' ')}
+      #{Helpables::HANGMAN_STATES[9 - @attempts_left]}
+      #{display_guessed_letters}
       Incorrect guesses left: #{@attempts_left}
       #{@word.display}
 
     HEREDOC
+  end
+
+  def display_guessed_letters
+    print 'Letters guessed: '
+    @letters_guessed.each do |letter|
+      if @word.selected_word.include?(letter)
+        print "#{color_letter(letter, 'green')} "
+      else
+        print "#{color_letter(letter, 'red')} "
+      end
+    end
+    puts
   end
 
   def process_guess(guess)
@@ -55,6 +71,7 @@ class Game
     if @attempts_left.positive?
       puts "Congrats! You guessed the word: #{@word.selected_word}"
     else
+      puts Helpables::HANGMAN_STATES[7]
       puts "Sorry. You lost! The word was: #{@word.selected_word}"
     end
   end
