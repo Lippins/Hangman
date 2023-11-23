@@ -88,8 +88,3 @@ class Game
     end
   end
 end
-
-# test = YAML.load_file('./saves/hangman-progress.yaml', permitted_classes: [Player, Game, Word])
-# test.play
-
-# Game.new(Player.new, Word.new).save_game
