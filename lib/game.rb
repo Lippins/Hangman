@@ -3,6 +3,7 @@
 require './lib/player'
 require './lib/word'
 require './lib/helpables'
+require 'json'
 
 # Handles all game attributes and functions
 class Game
@@ -67,6 +68,17 @@ class Game
     end
   end
 
+  def save_game
+    data = {
+      word: @word.selected_word,
+      masked_word: @word.masked_word,
+      attempts_left: @attempts_left,
+      letters_guessed: @letters_guessed
+    }
+
+    File.open('./saves/hangman-progress.json', 'w') { |f| f.write(data.to_json) }
+  end
+
   def conclude_game
     if @attempts_left.positive?
       puts "Congrats! You guessed the word: #{@word.selected_word}"
@@ -76,3 +88,5 @@ class Game
     end
   end
 end
+
+Game.new(Player.new, Word.new).save_game
