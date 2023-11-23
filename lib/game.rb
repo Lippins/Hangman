@@ -43,7 +43,7 @@ class Game
   end
 
   def display_guessed_letters
-    print 'Letters guessed: '
+    print "\nLetters guessed: "
     @letters_guessed.each do |letter|
       if @word.selected_word.include?(letter)
         print "#{color_letter(letter, 'green')} "
