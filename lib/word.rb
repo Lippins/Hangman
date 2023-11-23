@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require './lib/colors'
+
 # Handles all characters of the word element
 class Word
+  include Colors
   attr_reader :selected_word, :masked_word
 
   def initialize
@@ -16,7 +19,7 @@ class Word
   end
 
   def display
-    @masked_word
+    color_letter(@masked_word, 'blue')
   end
 
   def fully_guessed?

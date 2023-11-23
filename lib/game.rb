@@ -83,10 +83,10 @@ class Game
 
   def conclude_game
     if @attempts_left.positive?
-      puts "Congrats! You guessed the word: #{@word.selected_word}"
+      puts "Congrats! You guessed the word: #{color_letter(@word.selected_word, 'blue')}"
     else
       puts HangmanStates::STATES[8]
-      puts "Sorry. You lost! The word was: #{@word.selected_word}"
+      puts "Sorry. You lost! The word was: #{color_letter(@word.selected_word, 'blue')}"
     end
   end
 end
