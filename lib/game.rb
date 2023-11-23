@@ -2,13 +2,15 @@
 
 require './lib/player'
 require './lib/word'
-require './lib/helpables'
+require './lib/hangman_states'
+require './lib/colors'
 require 'json'
 require 'yaml'
 
 # Handles all game attributes and functions
 class Game
-  include Helpables
+  include HangmanStates
+  include Colors
 
   def initialize(player, word)
     @player = player
@@ -34,7 +36,7 @@ class Game
   def display_status
     puts <<~HEREDOC
 
-      #{Helpables::HANGMAN_STATES[8 - @attempts_left]}
+      #{HangmanStates::STATES[8 - @attempts_left]}
       #{display_guessed_letters}
       Incorrect guesses left: #{@attempts_left}
       #{@word.display}
@@ -43,7 +45,7 @@ class Game
   end
 
   def display_guessed_letters
-    print "\nLetters guessed: "
+    print 'Letters guessed: '
     @letters_guessed.each do |letter|
       if @word.selected_word.include?(letter)
         print "#{color_letter(letter, 'green')} "
@@ -66,10 +68,10 @@ class Game
   def update_game_state(guess)
     if @word.selected_word.include?(guess)
       @word.reveal_letter(guess)
-      puts 'Correct!'
+      puts color_letter("\nGood guess!", 'yellow')
     else
       @attempts_left -= 1
-      puts "Wrong! Attempts left: #{@attempts_left}"
+      puts color_letter("\nNo luck!", 'magenta')
     end
   end
 
@@ -83,7 +85,7 @@ class Game
     if @attempts_left.positive?
       puts "Congrats! You guessed the word: #{@word.selected_word}"
     else
-      puts Helpables::HANGMAN_STATES[7]
+      puts HangmanStates::STATES[8]
       puts "Sorry. You lost! The word was: #{@word.selected_word}"
     end
   end

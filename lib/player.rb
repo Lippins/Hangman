@@ -5,7 +5,7 @@ class Player
   def initialize; end
 
   def choose_letter
-    puts "Enter a letter, or type 'save' to save progress:"
+    print "Enter a letter, or type 'save' to save progress: "
     @letter = gets.chomp.upcase
   end
 
