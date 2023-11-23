@@ -6,7 +6,8 @@ require './lib/word'
 
 puts <<~HEREDOC
 
-  H-A-N-G-M-A-N
+  Welcome to H-A-N-G-M-A-N
+
   Would you like to: [1] Start a new game
                      [2] Load a game
   Enter '1' or '2'

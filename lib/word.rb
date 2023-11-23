@@ -20,11 +20,11 @@ class Word
   end
 
   def fully_guessed?
-    !@masked_word.include?('-')
+    !@masked_word.include?('_')
   end
 
   def letter_valid?(letter)
-    [*('a'..'z')].include?(letter)
+    [*('a'..'z')].include?(letter.downcase)
   end
 
   def select_word

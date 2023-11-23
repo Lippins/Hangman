@@ -8,7 +8,7 @@ class Game
   def initialize(player, word)
     @player = player
     @word = word
-    @attempts_left = 10
+    @attempts_left = 2
     @letters_guessed = []
   end
 
@@ -38,21 +38,24 @@ class Game
 
   def process_guess(guess)
     return puts "Invalid input: #{guess}" unless @word.letter_valid?(guess)
+    return puts "#{guess} has already been guessed" if @letters_guessed.include?(guess)
+
+    @letters_guessed << guess
 
     if @word.selected_word.include?(guess)
       @word.reveal_letter(guess)
       puts 'Correct!'
     else
-      @guesses_left -= 1
-      puts "Wrong! Attempts left #{@attempts_left}"
+      @attempts_left -= 1
+      puts "Wrong! Attempts left: #{@attempts_left}"
     end
   end
 
   def conclude_game
     if @attempts_left.positive?
-      puts "Congrat! You guessed the word: #{@word.selected_word}"
+      puts "Congrats! You guessed the word: #{@word.selected_word}"
     else
-      "Sorry. You lost! The word was: #{@word.selected_word}"
+      puts "Sorry. You lost! The word was: #{@word.selected_word}"
     end
   end
 end
